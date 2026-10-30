@@ -3,4 +3,4 @@ dist/
 .env
 tools/steps/
 tools/__pycache__/
-.tools
+tools/
