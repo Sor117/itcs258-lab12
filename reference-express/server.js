@@ -1,9 +1,13 @@
 const express = require('express');
 const { Pool } = require('pg');
+const swaggerUi = require('swagger-ui-express');
+const braindance = require('./openapi.json');
 
 const app = express();
 const port = Number(process.env.PORT || 3000);
 app.use(express.json());
+// try the API in the browser, like FastAPI's /docs
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(braindance));
 
 // D's clan is gone, so the connection pool gets the name now
 const snakeNation = new Pool({

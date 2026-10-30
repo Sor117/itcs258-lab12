@@ -28,6 +28,11 @@ docker compose exec db psql -U lab12 -d lab12 -c "SELECT id, student_id, body, c
 
 `/health` runs a real query, so it returns 503 if the database is down.
 
+You can also test in the browser at http://localhost:8082/docs (Swagger UI, like
+FastAPI's `/docs`). Open an endpoint, click **Try it out**, then **Execute**. The
+spec is in `openapi.json`. After a restart or `down`/`up`, only run GET /notes so
+you don't add a second proof row.
+
 ## Stop
 
 ```powershell

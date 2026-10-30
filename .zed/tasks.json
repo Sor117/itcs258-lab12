@@ -1,0 +1,15 @@
+[
+  { "label": "ref: up",    "command": "docker compose up -d --build --wait; docker compose ps", "cwd": "$ZED_WORKTREE_ROOT/reference-express", "shell": { "program": "pwsh" } },
+  { "label": "ref: down",  "command": "docker compose down; docker volume ls --filter name=lab12-express", "cwd": "$ZED_WORKTREE_ROOT/reference-express", "shell": { "program": "pwsh" } },
+  { "label": "ref: restart", "command": "docker compose restart; docker compose up -d --wait; docker compose ps", "cwd": "$ZED_WORKTREE_ROOT/reference-express", "shell": { "program": "pwsh" } },
+  { "label": "ref: status + DB container id", "command": "docker compose ps -a; docker compose ps -q db", "cwd": "$ZED_WORKTREE_ROOT/reference-express", "shell": { "program": "pwsh" } },
+  { "label": "ref: open docs", "command": "Start-Process http://localhost:8082/docs", "cwd": "$ZED_WORKTREE_ROOT/reference-express", "shell": { "program": "pwsh" }, "reveal": "never", "hide": "on_success" },
+
+  { "label": "hotel: up",    "command": "docker compose up -d --build --wait; docker compose ps -a", "cwd": "$ZED_WORKTREE_ROOT/hotel-booking-api", "shell": { "program": "pwsh" } },
+  { "label": "hotel: down",  "command": "docker compose down; docker volume ls --filter name=lab12-project", "cwd": "$ZED_WORKTREE_ROOT/hotel-booking-api", "shell": { "program": "pwsh" } },
+  { "label": "hotel: status + DB container id", "command": "docker compose ps -a; docker compose ps -q db", "cwd": "$ZED_WORKTREE_ROOT/hotel-booking-api", "shell": { "program": "pwsh" } },
+  { "label": "hotel: open docs", "command": "Start-Process http://localhost:8090/api-docs", "cwd": "$ZED_WORKTREE_ROOT/hotel-booking-api", "shell": { "program": "pwsh" }, "reveal": "never", "hide": "on_success" },
+
+  { "label": "all: up",   "command": "docker compose --project-directory reference-express up -d --wait; docker compose --project-directory hotel-booking-api up -d --wait; docker compose ls", "cwd": "$ZED_WORKTREE_ROOT", "shell": { "program": "pwsh" } },
+  { "label": "all: down", "command": "docker compose --project-directory reference-express down; docker compose --project-directory hotel-booking-api down; docker volume ls --filter name=lab12", "cwd": "$ZED_WORKTREE_ROOT", "shell": { "program": "pwsh" } }
+]

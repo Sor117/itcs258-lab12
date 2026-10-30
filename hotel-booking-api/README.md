@@ -60,9 +60,10 @@ curl.exe -s http://localhost:8090/health
 ```
 
 To test writes, register a user, promote it with
-`docker compose exec db sh -c 'mysql -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e "UPDATE users SET role=''ADMIN'' WHERE username=''student6788117'';"'`,
-log in, then `POST /rooms`. The Lab 12 demo account is `student6788117` /
-`lab12-demo-only`, and it only exists in the local Compose database.
+`docker compose exec db sh -c 'mysql -u root -p"$MYSQL_ROOT_PASSWORD" "$MYSQL_DATABASE" -e "UPDATE users SET role=''ADMIN'' WHERE username=''capri'';"'`,
+log in, then `POST /rooms`. The Lab 12 demo admin is `capri` / `D`, and it only
+exists in the local Compose database.
+(It was `student6788117` in the report screenshots; I renamed it afterwards.)
 
 `docker compose down` keeps the `talia_safehouse` volume. `down -v` deletes it.
 

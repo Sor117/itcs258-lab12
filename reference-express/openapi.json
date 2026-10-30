@@ -1,0 +1,92 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Lab 12 Notes API",
+    "version": "1.0.0",
+    "description": "Express + PostgreSQL reference stack for ITCS258 Lab 12. Notes are stored in the `db` service and survive `docker compose down` because of the named volume."
+  },
+  "paths": {
+    "/health": {
+      "get": {
+        "summary": "Check the app and its database",
+        "description": "Runs a real query, so it fails with 503 when PostgreSQL is unreachable.",
+        "responses": {
+          "200": {
+            "description": "Database connected",
+            "content": {
+              "application/json": {
+                "example": { "status": "ok", "framework": "express", "database": "connected", "db": "lab12", "checkedAt": "2026-10-30T03:09:05.489Z" }
+              }
+            }
+          },
+          "503": {
+            "description": "Database unreachable",
+            "content": {
+              "application/json": {
+                "example": { "status": "error", "framework": "express", "database": "unreachable", "detail": "connect ECONNREFUSED" }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/notes": {
+      "get": {
+        "summary": "List all notes, oldest first",
+        "responses": {
+          "200": {
+            "description": "Every note in the table",
+            "content": {
+              "application/json": {
+                "schema": { "type": "array", "items": { "$ref": "#/components/schemas/Note" } }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a note",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/NewNote" },
+              "example": { "student_id": "6788117", "body": "Lab12-6788117-Capri-my-marker" }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The saved note with its DB-generated id and created_at",
+            "content": { "application/json": { "schema": { "$ref": "#/components/schemas/Note" } } }
+          },
+          "400": {
+            "description": "student_id or body is missing",
+            "content": { "application/json": { "example": { "error": "student_id and body are required" } } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "NewNote": {
+        "type": "object",
+        "required": ["student_id", "body"],
+        "properties": {
+          "student_id": { "type": "string", "maxLength": 20 },
+          "body": { "type": "string" }
+        }
+      },
+      "Note": {
+        "type": "object",
+        "properties": {
+          "id": { "type": "integer", "example": 1 },
+          "student_id": { "type": "string", "example": "6788117" },
+          "body": { "type": "string", "example": "Lab12-6788117-Capri-wakes-up" },
+          "created_at": { "type": "string", "format": "date-time", "example": "2026-10-30T03:09:23.791Z" }
+        }
+      }
+    }
+  }
+}
